@@ -8,12 +8,12 @@
 #########################################################
 ### INITIAL SETTINGS AND LIBRARY ####
 rm(list=ls())
-setwd('/media/niklas/data/Satellite/grazing/pop_scripts_publication/')
+setwd('pop_scripts')
 library(raster)
 library(rgdal)
 library(foreach)
 library(doMC)
-cores <- 4 #cores to use for parallell processing
+cores <- 4 #cores to use for parallell processing -- tested in ubuntu system
 registerDoMC(cores)
 source('pop_functions.R')
 ##directory settings 
@@ -24,16 +24,16 @@ out_dir <- 'output/' ##output directory
 ## LOAD DATA ###
 
 ## population density year 2000
-pop2000_unique <- raster(paste(out_dir,'pop2000_unique.tif',sep='')) ## created in file create_unique_pop_data.R
+pop2000_unique <- raster(paste('pop2000_unique.tif',sep='')) ## created in file create_unique_pop_data.R
 
 ##world map , take out africa and add index field
-world <- readOGR(paste(data_dir,"WorldMap/TM_WORLD_BORDERS-0.3.shp",sep=""),layer="TM_WORLD_BORDERS-0.3") 
+world <- readOGR(paste(data_dir,"WORLD.shp",sep=""),layer="WORLD") 
 africa <- world[data.frame(world)$REGION==2,] #take out africa
 africa.df <- data.frame(africa)
 africa.df$ind <- seq(1,length(africa.df$FIPS),1)
 africa@data <- africa.df
 
-country_code <- read.csv(paste(data_dir,'popssps/countryCodes.csv',sep='')) ### SSP specific population data countrycodes
+country_code <- read.csv(paste('countryCodes.csv',sep='')) ### SSP specific population data countrycodes
 
 ##settings
 runyears <- 2000 #c(2000:2100) ## years to grid
@@ -48,12 +48,12 @@ for(scen in 1:1){ #length(rcp_list)){
   ssp <- ssp_list[scen]   
   
   ### rcp urban frac from hurtt
-  urb_frac.stack <-stack(paste(data_dir,'lu_out_africa/hurtt_urbanfrac_rcp_',rcp,'.tif',sep=''))
+  urb_frac.stack <-stack(paste(data_dir,'hurtt_urbanfrac_rcp_',rcp,'.tif',sep=''))
   
   ## SSP population estimates.
-  pop <- read.csv(paste(data_dir,'popssps/popSSP',ssp,'.csv',sep=''),header=TRUE,row.names=1)
+  pop <- read.csv(paste(data_dir,'popSSP',ssp,'.csv',sep=''),header=TRUE,row.names=1)
   colnames(pop) <- c(1:length(pop[1,]))
-  urban<- read.csv(paste(data_dir,'popssps/urbanShareSSP',ssp,'.csv',sep=''),header=TRUE,row.names=1)
+  urban<- read.csv(paste(data_dir,'urbanShareSSP',ssp,'.csv',sep=''),header=TRUE,row.names=1)
   colnames(urban) <- c(1:length(urban[1,]))
 
   for(year in runyears){
@@ -72,7 +72,7 @@ for(scen in 1:1){ #length(rcp_list)){
       if(year==2000){
         pop_grid <- crop(pop2000_unique,extent(urb_frac),snap='out') #country population density
       }else{
-        pop_grid <-  raster(paste(out_dir,'grid_pop_count',year-1,'_SSP',ssp,'_RCP',rcp,'.tif',sep=''))
+        pop_grid <-  raster(paste('grid_pop_count',year-1,'_SSP',ssp,'_RCP',rcp,'.tif',sep=''))
       }
       
       ## Create urban mask
