@@ -4,6 +4,7 @@
 #                                                       #
 # Author: Niklas Boke-Olen                              #
 # niklas.boke-olen@nateko.lu.se                         #
+# niklasbokeolen@gmail.com                              #
 #                                                       #
 #########################################################
 
