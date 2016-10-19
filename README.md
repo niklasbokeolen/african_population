@@ -1,11 +1,9 @@
-# african_population
-Future African population projections
-Combines SSP population projections and
-RCP urban fractions to grid population for the future 
+# Future African population projections 
+combines SSP population projections and RCP urban fractions to grid population for the future 
 
-Author: Niklas Boke-Olen
-niklas.boke-olen@nateko.lu.se
-niklasbokeolen@gmail.com                    
+Author: Niklas Boke-Olen 
+niklas.boke-olen@nateko.lu.se 
+niklasbokeolen@gmail.com                     
 
 
 
