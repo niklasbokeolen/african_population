@@ -4,6 +4,7 @@
 #                                                       #
 # Author: Niklas Boke-Olen                              #
 # niklas.boke-olen@nateko.lu.se                         #
+# niklasbokeolen@gmail.com                              #
 #                                                       #
 #########################################################
 to_urban_mask_parallell <- function(urb_frac,pop_grid,pixels,cores){
