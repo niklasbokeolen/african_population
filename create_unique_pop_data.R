@@ -10,7 +10,7 @@
 
 ### INITIAL SETTINGS AND LIBRARY ####
 rm(list=ls())
-setwd('/media/niklas/data/Satellite/grazing/pop_scripts_publication/')
+setwd('pop_scripts/')
 library(raster)
 library(rgdal)
 library(SDMTools)
@@ -27,19 +27,19 @@ pop_2000_file <- paste(data_dir,'Worldpop/ap00v4_TOTAL_adj.tif',sep='')
 pop_2000 <- raster(pop_2000_file)
 
 ## MATCH WATER MASK and apply to pop_2000
-water.mask  <- raster(paste(data_dir,'gis_data/poly2raster_coast_arcmap.tif',sep='')) ## created with polygon2raster in arcmap. cell size set to match pop_2000.
+water.mask  <- raster(paste(data_dir,'poly2raster_coast_arcmap.tif',sep='')) ## created with polygon2raster in arcmap. cell size set to match pop_2000.
 water.mask <- crop(water.mask ,pop_2000)
 water.mask  <- resample(water.mask ,pop_2000,method='ngb')
 water.mask [!is.na(water.mask )] <- 1
 pop_2000 <- pop_2000*water.mask
 
 ### rcp based urban frac from hurtt as sample for refernce use
-urb_frac.stack <-stack(paste(data_dir,'lu_out_africa/hurtt_urbanfrac_rcp_8_5.tif',sep=''))
+urb_frac.stack <-stack(paste(data_dir,'hurtt_urbanfrac_rcp_8_5.tif',sep=''))
 urb_frac <- crop(urb_frac.stack[[1]],extent(-25.36,63.5,-40.4,37.54)+0.5,snap='out') ## crop for africa extent +0.5 
 
 
-## load distance to roads created in ArcMap to matcg pop_2000 pixels
-dist_roads <- raster('/media/niklas/data/Satellite/grazing/pop/data/gis_data/dist_to_road_arcHighres.tif')
+## load distance to roads created in ArcMap to match pop_2000 pixels
+dist_roads <- raster('dist_to_road_arcHighres.tif')
 
 #extent pop_2000 so that it matches urban frac extent
 pop <- extend(pop_2000,extent(urb_frac))
@@ -130,7 +130,7 @@ for(row in 1:nrow(urb_frac)){
 }
 
 ## SAVE OUTPUT
-writeRaster(pop_unique,paste(out_dir,'pop2000_unique.tif',sep=''),format='GTiff',overwrite=T,NAflag=-9999)
+writeRaster(pop_unique,paste('pop2000_unique.tif',sep=''),format='GTiff',overwrite=T,NAflag=-9999)
 
 # 
 
