@@ -1,21 +1,15 @@
 # african_population
 Future African population projections
+Combines SSP population projections and
+RCP urban fractions to grid population for the future 
+
+Author: Niklas Boke-Olen
+niklas.boke-olen@nateko.lu.se
+niklasbokeolen@gmail.com                    
 
 
 
-
-
-############ POPULATION GRIDDING AFRICA #################
-# Combines SSP population projections and               #
-# RCP urban fractions to grid population for the future #
-#                                                       #
-# Author: Niklas Boke-Olen                              #
-# niklas.boke-olen@nateko.lu.se                         #
-# niklasbokeolen@gmail.com                              #
-#########################################################
-
-
-R - Files need to be run in the following order
+ R - Files need to be run in the following order
 
 
 1. RCPurbanfrac_stacks.R   /// To create the urbanfraction stacked rasters needed later
